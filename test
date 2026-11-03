@@ -1,0 +1,11 @@
+class An:
+    def __init__(self, gag):
+        self.gag = gag
+
+    def fafa(self, af):
+        self.gag += af
+
+    class b(An):
+        def fafa(s):
+            for ba in s:
+                sum(ba)

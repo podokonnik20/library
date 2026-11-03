@@ -10,8 +10,8 @@ class Book:
 
     @copies.setter
     def copies(self, value):
-        if value > 0:
-            return self._copies
+        if value >= 0:
+            self._copies = value
         else:
             raise ValueError(
                 "Ошибка! Количество копий не могут быть отрицательными!")
@@ -33,21 +33,45 @@ class Book:
 class Reader:
     def __init__(self, name):
         self.name = name
-        self.taken_books = [0]
+        self.taken_books = []
 
-    def borrow_book(self, book):
-        try:
-            result = book.take_book()
-        except ValueError as e:
-            print(f"Не удалось взять книгу: {e}")
-        if result == True and self.taken_books[0] < 1:
-            print(f"{self.name} взял книгу '{book.title}'")
-            self.taken_books.append(book)
-            self.taken_books[0] += 1
-        elif self.taken_books > 1:
-            print(
-                f"{self.name} не может взять больше книг, так как превышен максимум: 1")
+    def borrow_book(self, book, limit=3):
+        self.limit = limit
+        if len(self.taken_books) >= limit:
+            print(f"{self.name} не может взять больше книг")
+        else:
+            try:
+                book.take_book()
+                print(f"{self.name} взял книгу '{book.title}'")
+                self.taken_books.append(book)       
+            except ValueError as e:
+                print(f"Не удалось взять книгу: {e}")
+                return
+            
 
     def return_book(self, book):
         book.return_book()
         self.taken_books.remove(book)
+        print(f"{self.name} вернул книгу '{book.title}'")
+
+
+class VIPReader(Reader):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def borrow_book(self, book):
+            super().borrow_book(book, 5)
+
+
+
+b1 = Book(1, 11, 2)
+b2 = Book(2, 22, 1)
+er = VIPReader("Ишак")
+er.borrow_book(b1)
+
+library_data =[
+    {"title": "Война и мир", "author": "Толстой", "copies": 2},
+    {"title": "Преступление и наказание", "author": "Достоевский", "copies": 0}
+]
+with open("library_data.json", "w", encoding="utf-8") as file:
+    pass
