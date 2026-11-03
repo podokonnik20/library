@@ -1,3 +1,4 @@
+import json
 class Book:
     def __init__(self, title, author, copies):
         self.title = title
@@ -74,4 +75,5 @@ library_data =[
     {"title": "Преступление и наказание", "author": "Достоевский", "copies": 0}
 ]
 with open("library_data.json", "w", encoding="utf-8") as file:
-    print()
+    json.dump(library_data, file, ensure_ascii=False, indent=4)
+    print("Данные успешно сохранены")
