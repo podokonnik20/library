@@ -74,4 +74,4 @@ library_data =[
     {"title": "Преступление и наказание", "author": "Достоевский", "copies": 0}
 ]
 with open("library_data.json", "w", encoding="utf-8") as file:
-    pass
+    print()
